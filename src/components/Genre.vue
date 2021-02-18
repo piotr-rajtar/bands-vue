@@ -1,12 +1,13 @@
 <template>
-    <div @click="showBands">{{ name }}</div>
-    <ul v-if="areBandsVisible">
-        <music-band v-for="band in bandsDetails" 
-            :key="band.id"
-            v-bind="band"
-        />
-    </ul>
-
+    <li>
+        <div @click="showBands">{{ name }}</div>
+        <ul v-if="areBandsVisible">
+            <music-band v-for="band in bandsDetails" 
+                :key="band.id"
+                v-bind="band"
+            />
+        </ul>
+    </li>
 </template>
 
 <script>
