@@ -1,5 +1,7 @@
 <template>
-    <div>{{ name }}</div>
+    <li>
+        <div>{{ name }}</div>
+    </li>
 </template>
 
 <script>
