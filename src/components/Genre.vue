@@ -1,6 +1,6 @@
 <template>
     <li>
-        <div @click="showBands">{{ name }}</div>
+        <h2 @click="showBands" class="pointer">{{ name }}</h2>
         <ul v-if="areBandsVisible">
             <music-band v-for="band in bandsDetails" 
                 :key="band.id"

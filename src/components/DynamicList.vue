@@ -1,10 +1,10 @@
 <template>
     <ul>
-        <genre v-for="genre in genres" :key="genre.id"
+        <genre v-for="genre in genres" 
+            :key="genre.id"
             v-bind="genre"
         />
     </ul>
-
 </template>
 
 <script>
