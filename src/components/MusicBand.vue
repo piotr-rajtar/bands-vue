@@ -1,7 +1,7 @@
 <template>
     <li>
         <div @click="showMusicians">{{ name }}</div>
-            <ul v-if="areMusiciansVisible">
+        <ul v-if="areMusiciansVisible">
             <musician v-for="musician in musiciansDetails" 
                 :key="musician.id"
                 v-bind="musician"
