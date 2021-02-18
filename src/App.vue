@@ -7,7 +7,6 @@
 import TheHeader from './components/Layout/TheHeader.vue';
 import DynamicList from './components/DynamicList.vue';
 
-
 export default {
   components: {
     TheHeader,
