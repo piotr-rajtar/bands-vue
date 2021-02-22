@@ -5,11 +5,10 @@
                 <router-link :to="dataItem.link">
                     {{dataItem.name}}
                 </router-link>
-                <router-view />
             </li>
         </ul> 
     </nav>
-   
+   <router-view />
 </template>
 
 <script>
@@ -19,7 +18,6 @@ export default {
     data() {
         return {
             data: [],
-            slotData: [],
         };
     },
     methods: {
@@ -28,13 +26,13 @@ export default {
                 return {
                     id: genre.id,
                     name: genre.name,
-                    link: `/menu/${genre.name}`,
+                    link: `/${genre.name}`,
                     slots: bands.filter(band => genre.bands.includes(band.id))
                     .map(band => {
                         return {
                             id: band.id,
                             name: band.name,
-                            link: `/menu/${genre.name}/${band.id}`,
+                            link: `/${genre.name}/${band.id}`,
                             slots: musicians.filter(musician => band.musicians.includes(musician.id))
                             .map(musician => {
                                 return {
@@ -49,18 +47,12 @@ export default {
             
             this.data = data;
         },
-        getSlotData(name) {
-            const slotData = this.data.find(item => item.name === name).slots;
-            return slotData;
-        }
     },
     created() {
         this.loadData();
     },
     beforeRouteUpdate(to, _, next) {
-        const slotData = this.getSlotData(to.params.genre)
-        to.params.slots = slotData;
-
+        to.params.slots = this.data.filter(item => item.name === to.params.genre);
         next();
     },
 }
