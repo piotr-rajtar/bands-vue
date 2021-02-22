@@ -14,12 +14,20 @@ const router = createRouter({
                     path: ':genre',
                     component: MenuItem,
                     props: true,
+                    children: [
+                        {
+                            path: ':id',
+                            component: MenuItem,
+                            props: true,
+                        }
+                    ],
                 },
-                {
-                    path: ':genre/:id',
-                    component: MenuItem,
-                    props: true,
-                }
+                // {
+                //     name: 'musicians',
+                //     path: ':genre/:id',
+                //     component: {musicians: MenuItem},
+                //     props: true,
+                // }
             ],
         },
     ],

@@ -1,11 +1,15 @@
 <template>
     <ul>
         <li v-for="slotItem in slotData" :key="slotItem.id">
-            <router-link :to="slotItem.link">
+            <router-link v-if="slotItem.slots" :to="slotItem.link">
                 {{slotItem.name}}
-            </router-link>     
+            </router-link>
+            <router-link v-else to="/">
+                {{slotItem.name}}
+            </router-link>
+            
         </li>
-    </ul> 
+    </ul>  
     <router-view />
 </template>
 
@@ -23,43 +27,48 @@ export default {
     },
     data() {
         return {
+            initData: [],
             slotData: null,
         };
     },
     methods: {
-        getSlotDataByGenre() {
+        getSlotDataByGenre(genre) {
             console.log('zmiana genre')
-            this.slotData = this.$route.params.slots[0].slots;
+            this.slotData = this.initData.find(slot => slot.name === genre).slots;
+            console.log(this.slotData)
         },
         getSlotDataById(id) {
+            console.log('zmiana id');
             const newData = this.slotData.find(item => item.id === id).slots;
             this.slotData = newData;
         }
     },
-    // beforeRouteUpdate(to, from, next) {
-    //     if(to.params.id && !from.params.id) {
-    //         console.log('nasz roua')
-    //         const newSlotData = this.slotData.find(item => item.id === +to.params.id).slots;
-    //         to.params.slots = newSlotData;
-    //     } else {
-    //         const bands = this.slotData = this.$route.params.slots[0].slots;
-    //         const musicians = bands.find(item => item.id === to.params.id).slots;
-    //         to.params.slots = musicians;
-    //     }
+    beforeRouteUpdate(to, _, next) {
+       to.params.slots = this.slotData;
+       console.log(to.params.slots)
 
-    //     next();
-    // },
+        next();
+    },
     created() {
-        this.slotData = this.$route.params.slots[0].slots;
+        if(!this.$route.params.id) {
+            this.initData = this.$route.params.slots;
+            this.slotData = this.$route.params.slots.find(slot => slot.name === this.genre).slots;
+        } else {
+            console.log('z ididkiem')
+            this.slotData = this.$route.params.slots;
+        }
     },
     watch: {
-        genre() {
-            this.getSlotDataByGenre();
+        genre(newGenre) {
+            console.log('dziala genre')
+            this.getSlotDataByGenre(newGenre);
         },
         id(newId) {
             if(newId) {
+                console.log('zmianiemay id)');
                 this.getSlotDataById(+newId);
             }
+
         }
     }
 }

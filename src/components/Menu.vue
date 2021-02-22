@@ -5,10 +5,11 @@
                 <router-link :to="dataItem.link">
                     {{dataItem.name}}
                 </router-link>
+                
             </li>
         </ul> 
     </nav>
-   <router-view />
+    <router-view />
 </template>
 
 <script>
@@ -52,7 +53,7 @@ export default {
         this.loadData();
     },
     beforeRouteUpdate(to, _, next) {
-        to.params.slots = this.data.filter(item => item.name === to.params.genre);
+        to.params.slots = this.data;
         next();
     },
 }
