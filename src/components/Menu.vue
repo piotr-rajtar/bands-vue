@@ -1,15 +1,9 @@
 <template>
     <nav>
         <ul>
-            <li v-for="dataItem in data" :key="dataItem.id">
-                <router-link :to="dataItem.link">
-                    {{dataItem.name}}
-                </router-link>
-                
-            </li>
+            <menu-item v-for="dataItem in data" :key="dataItem.id" v-bind="dataItem" />
         </ul> 
     </nav>
-    <router-view />
 </template>
 
 <script>
@@ -27,18 +21,19 @@ export default {
                 return {
                     id: genre.id,
                     name: genre.name,
-                    link: `/${genre.name}`,
-                    slots: bands.filter(band => genre.bands.includes(band.id))
+                    url: `/${genre.name}`,
+                    childrens: bands.filter(band => genre.bands.includes(band.id))
                     .map(band => {
                         return {
                             id: band.id,
                             name: band.name,
-                            link: `/${genre.name}/${band.id}`,
-                            slots: musicians.filter(musician => band.musicians.includes(musician.id))
+                            url: `/${genre.name}/${band.id}`,
+                            childrens: musicians.filter(musician => band.musicians.includes(musician.id))
                             .map(musician => {
                                 return {
                                     id: musician.id,
                                     name: musician.name,
+                                    url: `/${genre.name}/${band.id}/${musician.id}`,
                                 };
                             }),
                         };
@@ -51,10 +46,6 @@ export default {
     },
     created() {
         this.loadData();
-    },
-    beforeRouteUpdate(to, _, next) {
-        to.params.slots = this.data;
-        next();
     },
 }
 </script>

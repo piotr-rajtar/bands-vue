@@ -1,74 +1,25 @@
 <template>
-    <ul>
-        <li v-for="slotItem in slotData" :key="slotItem.id">
-            <router-link v-if="slotItem.slots" :to="slotItem.link">
-                {{slotItem.name}}
-            </router-link>
-            <router-link v-else to="/">
-                {{slotItem.name}}
-            </router-link>
-            
-        </li>
-    </ul>  
-    <router-view />
+    <li>
+        <router-link :to="url">
+            <span @click="setActive">{{name}}</span>
+        </router-link>
+        <ul v-show="isActive" v-if="childrens && childrens.length">
+            <menu-item v-for="children in childrens" :key="children.id" v-bind="children" />
+        </ul>
+    </li>
 </template>
 
 <script>
 export default {
-    props: {
-        genre: {
-            type: String,
-            required: false,
-        },
-        id: {
-            type: String,
-            required: false,
-        }
-    },
+    props: ['name', 'childrens', 'url'],
     data() {
         return {
-            initData: [],
-            slotData: null,
+            isActive: false,
         };
     },
     methods: {
-        getSlotDataByGenre(genre) {
-            console.log('zmiana genre')
-            this.slotData = this.initData.find(slot => slot.name === genre).slots;
-            console.log(this.slotData)
-        },
-        getSlotDataById(id) {
-            console.log('zmiana id');
-            const newData = this.slotData.find(item => item.id === id).slots;
-            this.slotData = newData;
-        }
-    },
-    beforeRouteUpdate(to, _, next) {
-       to.params.slots = this.slotData;
-       console.log(to.params.slots)
-
-        next();
-    },
-    created() {
-        if(!this.$route.params.id) {
-            this.initData = this.$route.params.slots;
-            this.slotData = this.$route.params.slots.find(slot => slot.name === this.genre).slots;
-        } else {
-            console.log('z ididkiem')
-            this.slotData = this.$route.params.slots;
-        }
-    },
-    watch: {
-        genre(newGenre) {
-            console.log('dziala genre')
-            this.getSlotDataByGenre(newGenre);
-        },
-        id(newId) {
-            if(newId) {
-                console.log('zmianiemay id)');
-                this.getSlotDataById(+newId);
-            }
-
+        setActive() {
+            this.isActive = !this.isActive;
         }
     }
 }
